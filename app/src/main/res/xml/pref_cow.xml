@@ -1,0 +1,86 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <!-- A 'parent' preference, which enables/disables child preferences (below)
+     when checked/unchecked. -->
+    <PreferenceCategory
+    android:title="General COW settings">
+        <EditTextPreference
+            android:icon="@drawable/pref_ic_paired"
+            android:key="cow_paired_name"
+            android:title="Paired COW device"
+            android:defaultValue="COW unknown"
+            android:dialogTitle="EditText Dialog"
+             /><!--
+        android:enabled="false"-->
+        <EditTextPreference
+            android:icon="@drawable/pref_ic_folder"
+            android:key="cow_folder"
+            android:title="Subdirectory folder"
+            android:defaultValue="CTLogs"/>
+        <EditTextPreference
+            android:icon="@drawable/pref_ic_file"
+            android:key="cow_file_prefix"
+            android:title="Files prefix"
+            android:defaultValue="CWP"/>
+        <EditTextPreference
+            android:icon="@drawable/pref_ic_clock"
+            android:key="cow_period_files"
+            android:title="Period of files"
+            android:inputType="number"
+            android:defaultValue="5"/>
+   </PreferenceCategory>
+       <!-- <EditTextPreference
+            android:icon="@drawable/pref_ic_folder"
+            android:defaultValue="CTlogs"
+            android:inputType="text"
+            android:key="cow_folder"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Subdirectory folder"/>
+        <EditTextPreference
+            android:icon="@drawable/pref_ic_file"
+            android:defaultValue="AVZ"
+            android:inputType="text"
+            android:key="cow_file_prefix"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="File name prefix"/>
+        <EditTextPreference
+            android:icon="@drawable/pref_ic_clock"
+            android:defaultValue="4"
+            android:inputType="number"
+            android:key="cow_period_files"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Period of files"/>
+    </PreferenceCategory>-->
+    <PreferenceCategory
+        android:title="COW modes"
+        android:icon="@drawable/pref_ic_mode">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="cow_mode_bt"
+            android:title="Bluetooth sender"/>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="cow_mode_sd"
+            android:title="COW's SD storage"/>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="cow_mode_lv"
+            android:title="USB serial/LabView"/>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="cow_mode_obd"
+            android:title="OBD-II"/>
+    </PreferenceCategory>
+
+
+
+</PreferenceScreen>

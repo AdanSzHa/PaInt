@@ -1,0 +1,80 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.adans.app_10.Cowtech54.CowTabFragment2"
+    >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="5dp"
+        android:orientation="vertical">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:paddingLeft="150dp"
+        android:paddingRight="20dp"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/speedTxtTab2"
+            android:text="87 km/h"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="60dp"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:gravity="center_vertical"
+            android:background="@android:color/holo_red_dark">
+        </TextView>
+
+        <TextView
+            android:id="@+id/consumptionTxtTab2"
+            android:text="12 lt/km"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="60dp"
+            android:layout_below="@id/speedTxtTab2"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:background="@android:color/holo_orange_light">
+        </TextView>
+
+        <TextView
+            android:id="@+id/emisionsTxtTab2"
+            android:text="5 CO2"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="60dp"
+            android:layout_below="@id/consumptionTxtTab2"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:background="@android:color/holo_green_light">
+        </TextView>
+
+    </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="192dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:src="@mipmap/ic_cow_black_nbg" />
+
+
+    </LinearLayout>
+
+</FrameLayout>

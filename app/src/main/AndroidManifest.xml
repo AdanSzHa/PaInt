@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.adans.app_10">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".RegU"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PruebaAct"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Cursos"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PerfilAct"
+            android:screenOrientation="portrait" />
+        <activity android:name=".GasYEmisAct" />
+
+        <service android:name=".SensorsService" />
+        <service android:name=".GpsDataService" />
+
+        <activity android:name=".IndicacionesAct"></activity>
+
+        <service android:name=".Cowtech54.CowService" />
+
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".PerfilAct">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.adans.app_10.PerfilAct" />
+        </activity>
+
+        <activity
+            android:name=".Cowtech54.CowTabActivity"
+            android:label="@string/title_activity_cow_tab"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".Bluetooth"
+            android:label="@string/title_activity_cow_tab"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+    </application>
+
+</manifest>

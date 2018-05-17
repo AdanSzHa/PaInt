@@ -1,0 +1,325 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.adans.app_10.Cowtech54.CowTabFragment1">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        android:orientation="vertical">
+
+        <!--======================-->
+        <!--=== === DEVICE === ===-->
+        <TextView
+            android:text="DEVICE"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textSize="16sp" >
+        </TextView>
+        <!--=== === Status === ===-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:textStyle="bold"
+                android:text="Status: "/>
+            <TextView
+                android:id="@+id/txtStatusTab1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:text="Disconnected/" />
+        </LinearLayout>
+        <!--=== === Name & Mac === ===-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:textStyle="bold"
+                android:text="Name:  "/>
+            <TextView
+                android:id="@+id/txtDeviceNameTab1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".6"
+                android:ellipsize="end"
+                android:text="COW_NAME" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:textStyle="bold"
+                android:text="Mac:  "/>
+            <TextView
+                android:id="@+id/txtDeviceMacTab1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".8"
+                android:ellipsize="end"
+                android:text="XX:XX:XX:XX:XX:XX" />
+        </LinearLayout>
+        <!--=== === Mode === ===-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Mode: "
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/modeBtRadio"
+                style="@android:style/Widget.DeviceDefault.Light.CompoundButton.RadioButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="BT" />
+
+            <CheckBox
+                android:id="@+id/modeSDRadio"
+                style="@android:style/Widget.DeviceDefault.Light.CompoundButton.RadioButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SD" />
+
+            <CheckBox
+                android:id="@+id/modeLabviewRadio"
+                style="@android:style/Widget.DeviceDefault.Light.CompoundButton.RadioButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="LV" />
+
+            <CheckBox
+                android:id="@+id/modeOBDRadio"
+                style="@android:style/Widget.DeviceDefault.Light.CompoundButton.RadioButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="OBD" />
+
+        </LinearLayout>
+        <!--=== === File === ===-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:textStyle="bold"
+                android:text="File: "/>
+            <TextView
+                android:id="@+id/txtFileTab1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:text="XXX_XXXXXX_XXXX_XX_XX.csv" />
+        </LinearLayout>
+
+        <!--======================-->
+        <!--=== === EXT GPS === ===-->
+        <TextView
+            android:text="====================================="
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="10sp"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textSize="16sp" >
+        </TextView>
+
+        <TextView
+            android:text="EXT GPS"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10sp"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textSize="16sp" >
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="17dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:text="Latest loc:  "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtLatestGPSTab1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".6"
+                android:ellipsize="end"
+                android:text="YY/MM/DD HH:mm:ss" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:text="Enabled: "
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/checkboxGpsTab1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:layoutDirection="rtl"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:textStyle="bold"
+                android:visibility="visible" />
+        </LinearLayout>
+        <!--=== === Lat-Lon-Sat === ===-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:textStyle="bold"
+                android:text="Lat:  "/>
+            <TextView
+                android:id="@+id/txtLatTab1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".6"
+                android:ellipsize="end"
+                android:text="XXX.XXXXXX" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:textStyle="bold"
+                android:text="Lon:  "/>
+
+            <TextView
+                android:id="@+id/txtLonTab1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".6"
+                android:ellipsize="end"
+                android:text="XXX.XXXXXX" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:textStyle="bold"
+                android:text="#Sat:  "/>
+            <TextView
+                android:id="@+id/txtSatTab1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".4"
+                android:ellipsize="end"
+                android:text="XXX" />
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="192dp"
+            android:src="@mipmap/ic_cow_black_nbg" />
+
+        <Button
+            android:id="@+id/cowTab1StartBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="START COW SERVICE"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/cowTab1StopBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:text="STOP COW SERVICE"
+            android:visibility="gone" />
+
+        <!--=== === File === ===-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/cowTab1BindBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="START" />
+
+            <Button
+                android:id="@+id/cowTab1UnbindBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                android:text="STOP" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/cowTab1UpdateBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:text="UPDATE FRM SERVICE" />
+
+    </LinearLayout>
+
+
+
+    </ScrollView>
+
+

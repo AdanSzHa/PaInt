@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <!-- A 'parent' preference, which enables/disables child preferences (below)
+     when checked/unchecked. -->
+    <SwitchPreference
+        android:icon="@drawable/pref_ic_bluetooth"
+        android:defaultValue="true"
+        android:key="connection_bluetooth"
+        android:title="Bluetooth"/>
+    <SwitchPreference
+        android:icon="@drawable/pref_ic_gps"
+        android:defaultValue="true"
+        android:key="connection_gps"
+        android:title="GPS"
+        android:summary="(Not actual GPS state)"/>
+
+
+
+</PreferenceScreen>

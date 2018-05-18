@@ -202,6 +202,11 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener{
                 }
                 Intent intent = new Intent(getActivity(),CowService.class);
                 getActivity().bindService(intent,sServerConn, Context.BIND_AUTO_CREATE);
+
+                String pairedDeviceMac = prefs.getString("cow_paired_mac", "Not synced");
+                String pairedDevice = prefs.getString("cow_paired_name", "COW_UNSYNCED");
+                sDeviceMacTxt.setText(pairedDeviceMac);
+                sDeviceNameTxt.setText(pairedDevice);
             }
         });
         sUnbindBtn.setOnClickListener(new View.OnClickListener() {
@@ -230,7 +235,7 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener{
         });
 
         //Update the paired device textview
-        String pairedDeviceMac = prefs.getString("cow_paired_mac", "Not synced");
+
 
 
         return view;

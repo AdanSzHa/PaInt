@@ -2,43 +2,61 @@ package com.adans.app_10;
 
 public class PerfModelo {
 
-    private String codigo,curso,carrera,gx,gy,gz,log,lat;
+    private String ts,ax,ay,az,gx,gy,gz,agx,agy,agz,log,lat,alt,nosats;
 
 
-    public PerfModelo(String codigo, String curso, String carrera, String gx, String gy, String gz, String lat, String log) {
-        this.codigo = codigo;
-        this.curso = curso;
-        this.carrera = carrera;
+    public PerfModelo(String ts,String ax,String ay,String az,String gx,String gy,String gz,
+                      String agx,String agy,String agz,String log,String lat,String alt,String nosats) {
+
+        this.ts = ts;
+        this.ax = ax;
+        this.ay = ay;
+        this.az = az;
         this.gx = gx;
         this.gy = gy;
         this.gz = gz;
+        this.agx = gx;
+        this.agy = gy;
+        this.agz = gz;
         this.log= log;
         this.lat= lat;
+        this.alt= alt;
+        this.nosats= nosats;
+
+
 
     }
 
-    public String getCodigo() {
-        return codigo;
+    public String getTs() {
+        return ts;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setTs(String ts) {
+        this.ts = ts;
     }
 
-    public String getCurso() {
-        return curso;
+    public String getAx() {
+        return ax;
     }
 
-    public void setCurso(String curso) {
-        this.curso = curso;
+    public void setAx(String ax) {
+        this.ax = ax;
     }
 
-    public String getCarrera() {
-        return carrera;
+    public String getAy() {
+        return ay;
     }
 
-    public void setCarrera(String carrera) {
-        this.carrera = carrera;
+    public void setAy(String ay) {
+        this.ay = ay;
+    }
+
+    public String getAz() {
+        return az;
+    }
+
+    public void setAz(String az) {
+        this.az = az;
     }
 
     public String getGx() {
@@ -65,6 +83,30 @@ public class PerfModelo {
         this.gz = gz;
     }
 
+    public String getAgx() {
+        return agx;
+    }
+
+    public void setAgx(String agx) {
+        this.agx = agx;
+    }
+
+    public String getAgy() {
+        return agy;
+    }
+
+    public void setAgy(String agy) {
+        this.agy = agy;
+    }
+
+    public String getAgz() {
+        return agz;
+    }
+
+    public void setAgz(String agz) {
+        this.agz = agz;
+    }
+
     public String getLog() {
         return log;
     }
@@ -79,5 +121,21 @@ public class PerfModelo {
 
     public void setLat(String lat) {
         this.lat = lat;
+    }
+
+    public String getAlt() {
+        return alt;
+    }
+
+    public void setAlt(String alt) {
+        this.alt = alt;
+    }
+
+    public String getNosats() {
+        return nosats;
+    }
+
+    public void setNosats(String nosats) {
+        this.nosats = nosats;
     }
 }

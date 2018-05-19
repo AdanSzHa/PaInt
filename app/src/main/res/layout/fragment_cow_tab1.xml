@@ -269,6 +269,12 @@
             android:layout_height="192dp"
             android:src="@mipmap/ic_cow_black_nbg" />
 
+        <TextView
+            android:id="@+id/tvEdoGPSFrac"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gps not available" />
+
         <Button
             android:id="@+id/cowTab1StartBtn"
             android:layout_width="match_parent"

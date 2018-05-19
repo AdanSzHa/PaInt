@@ -1,36 +1,25 @@
 package com.adans.app_10;
 
-import android.Manifest;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Calendar;
 
-import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,28 +28,28 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 
 import android.graphics.Color;
 
-import com.androidplot.xy.Axis;
 import com.opencsv.CSVWriter;
 
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
 
 public class PruebaAct extends AppCompatActivity implements LocationListener,GpsStatus.Listener{
 
-    //GpsDataService gpsdataservice;
-    //GpsDataService.GPSBinder gpsBinder;
 
     //Var Consumo Prom Km/l
     int ConsProm=20;
     //Var Emis Prom gr/l
     int EmisProm=400;
 
+
+    //Vars DB
     float VAX,VAY,VAZ,VGX,VGY,VGZ;
+    String TS;Double ALT;
+    float AGX,AGY,AGZ;
+    int NOSts;
 
     Double mLastMslAltitude;
     int LocAltitude;
@@ -75,7 +64,7 @@ public class PruebaAct extends AppCompatActivity implements LocationListener,Gps
     private Handler mHandler = new Handler();
 
     //Delay en sensores y Handler
-    public int dly = 1;
+    public Double dly = 0.1;
 
     //Var Boolean estado del GPS
     boolean EDOGPSBoo = false;
@@ -139,13 +128,6 @@ public class PruebaAct extends AppCompatActivity implements LocationListener,Gps
         tvEmisiones=(TextView) findViewById(R.id.tvEmisiones);
 
 
-        //tvNoSats = (TextView) findViewById(R.id.tvNoSat);
-        //tvSpeed = (TextView) findViewById(R.id.tvSpeed);
-
-        //ivCel = (ImageView) findViewById(R.id.ivCel);
-        //tvNot1 = (TextView) findViewById(R.id.tvNot1);
-        //tvNot2 = (TextView) findViewById(R.id.tvNot2);
-
         Start = (Button) findViewById(R.id.btnStart);
 
         Stop = (Button) findViewById(R.id.btnStop);
@@ -156,10 +138,6 @@ public class PruebaAct extends AppCompatActivity implements LocationListener,Gps
 
         tvEdoGPS = (TextView) findViewById(R.id.tvEdoGPS);
 
-        //tvVel = (TextView) findViewById(R.id.tvVel);
-        //tvVel.setVisibility(View.GONE);
-        //btnIndic = (Button) findViewById(R.id.btnIndic);
-        //btnIndic.setVisibility(View.GONE);
 
         btnMostrar = (Button) findViewById(R.id.btnMostrar);
 
@@ -172,15 +150,12 @@ public class PruebaAct extends AppCompatActivity implements LocationListener,Gps
             Nombre = XBundle.getString("nomb");
         }
 
-
-        //permisos usuario
+        /*
+        //User Permission [Write SD]
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE}, 2);
-        }
-        //
-
-
+        }*/
 
         btnMostrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,7 +181,7 @@ public class PruebaAct extends AppCompatActivity implements LocationListener,Gps
 
     private void starBinder() {
         Intent intent = new Intent(getApplicationContext(),SensorsService.class);
-        getApplicationContext().bindService(intent,sServerConn, Context.BIND_AUTO_CREATE);
+        getApplicationContext().bindService(intent, snsServerConn, Context.BIND_AUTO_CREATE);
         Intent sintent = new Intent(getApplicationContext(),GpsDataService.class);
         getApplicationContext().bindService(sintent,gServerConn, Context.BIND_AUTO_CREATE);
     }
@@ -219,7 +194,7 @@ public class PruebaAct extends AppCompatActivity implements LocationListener,Gps
 
         try {
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, dly * 1000, 1, this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, (long) (dly * 1000), 1, this);
 
         } catch (SecurityException e) {
             e.printStackTrace();
@@ -236,28 +211,16 @@ public class PruebaAct extends AppCompatActivity implements LocationListener,Gps
         if (EDOGPSBoo == true) {
             //mHandler.postDelayed(mToastRunnable, 5000);
             mToastRunnable.run();
-            Toast.makeText(this, "Guardando Datos, Cada " + dly + " Segundos", dly * 1000).show();
+            Toast.makeText(this, "Guardando Datos, Cada " + dly + " Segundos", (int) (dly * 1000)).show();
 
             Stop.setVisibility(View.VISIBLE);
-            /*ivCel.setVisibility(View.GONE);
-            tvNot1.setVisibility(View.GONE);
-            tvNot2.setVisibility(View.GONE);*/
+
             tvEdoGPS.setText("");
             Start.setVisibility(View.GONE);
-
-            //btnIndic.setVisibility(View.VISIBLE);
-            //tvVel.setVisibility(View.VISIBLE);
-
-
-            // m/s a Km/hr (*3.6)
-            /*tvNoSats.setText(String.valueOf(LocAltitude));
-            String NmaLine=gpsapp.getNmaLine();
-            tvSpeed.setText(NmaLine);*/
 
         } else {
             Toast.makeText(getApplicationContext(), "Espera la conexión del GPS", Toast.LENGTH_LONG).show();
         }
-
     }
 
     //BtnStop
@@ -275,22 +238,22 @@ public class PruebaAct extends AppCompatActivity implements LocationListener,Gps
         Intent sensintent=new Intent(getApplicationContext(),SensorsService.class);
         getApplicationContext().stopService(sensintent);
         if(sBound) {
-            getApplicationContext().unbindService(sServerConn);
+            getApplicationContext().unbindService(snsServerConn);
             getApplicationContext().unbindService(gServerConn);
             sBound=false;};}
 
-    protected ServiceConnection sServerConn = new ServiceConnection() {
+    protected ServiceConnection snsServerConn = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             // We've bound to LocalService, cast the IBinder and get LocalService instance
             SensorsService.SensBinder binder = (SensorsService.SensBinder) service;
             sensorserv = binder.getService();
             sBound = true;
-            Log.d(TAG, "onServiceConnected");}
+            Log.d(TAG, "onSensorsServiceConnected");}
         @Override
         public void onServiceDisconnected(ComponentName name) {
             sBound = false;
-            Log.d(TAG, "onServiceDisconnected"); }};
+            Log.d(TAG, "onSensorsServiceDisconnected"); }};
 
     protected ServiceConnection gServerConn = new ServiceConnection() {
         @Override
@@ -310,21 +273,31 @@ public class PruebaAct extends AppCompatActivity implements LocationListener,Gps
     private Runnable mToastRunnable = new Runnable() {
         @Override
         public void run() {
-
-            final MantBDD mantBDD = new MantBDD(getApplicationContext());
             getLocation();
-            VAX=sensorserv.getVAX();VAY=sensorserv.getVAY();VAZ=sensorserv.getVAZ();
-            VGX=sensorserv.getVGX();VGY=sensorserv.getVGY();VGZ=sensorserv.getVGZ();
+            final MantBDD mantBDD = new MantBDD(getApplicationContext());
+            TS =sensorserv.getTs();
+            VAX=sensorserv.getVAX();
+            VAY=sensorserv.getVAY();
+            VAZ=sensorserv.getVAZ();
+            VGX=sensorserv.getVGX();
+            VGY=sensorserv.getVGY();
+            VGZ=sensorserv.getVGZ();
+            AGX=sensorserv.getAX();
+            AGY=sensorserv.getAY();
+            AGZ=sensorserv.getAZ();
+            ALT=gpsapp.getNMEAAlt();
+            NOSts=gpsapp.getNoSats();
 
-            mantBDD.agregarCurso(VAX, VAY, VAZ, VGX, VGY, VGZ, LAT, LOG);
+
+            mantBDD.agregarCurso(TS,VAX, VAY, VAZ, VGX, VGY, VGZ, AGX, AGY, AGZ, LAT, LOG, ALT, NOSts);
             float AX=sensorserv.getAX(); float AY=sensorserv.getAY(); float AZ=sensorserv.getAZ();
 
             tvPerfil.setText(String.valueOf(AX)); tvConsumo.setText(String.valueOf(AY));tvEmisiones.setText(String.valueOf(AZ));
 
             //ActLabels();
 
-            int dlyto = 1;//Segundos
-            mHandler.postDelayed(this, dlyto * 1000);
+            Double dlyto = 0.1;//Segundos
+            mHandler.postDelayed(this, (long) (dlyto * 1000));
 
 
         }
@@ -388,10 +361,10 @@ public class PruebaAct extends AppCompatActivity implements LocationListener,Gps
 
         LocAltitude=gpsapp.getNoSats();
 
-        tvEdoGPS.setText("Conexión con GPS Disponible.");
+        tvEdoGPS.setText("Conexión con GPS Disponible");
         EDOGPSBoo = true;
 
-        Speed=(Float) location.getSpeed();
+        Speed= location.getSpeed();
 
     }
 

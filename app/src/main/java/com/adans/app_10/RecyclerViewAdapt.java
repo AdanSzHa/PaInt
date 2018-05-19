@@ -52,9 +52,9 @@ public class RecyclerViewAdapt extends RecyclerView.Adapter<RecyclerViewAdapt.Vi
     //REaliza las modifics para cada item
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.codigo.setText(cursoLista.get(position).getCodigo());
-        holder.curso.setText(cursoLista.get(position).getCurso());
-        holder.carrera.setText(cursoLista.get(position).getCarrera());
+        holder.codigo.setText(cursoLista.get(position).getAx());
+        holder.curso.setText(cursoLista.get(position).getAy());
+        holder.carrera.setText(cursoLista.get(position).getAz());
         holder.Gx.setText(cursoLista.get(position).getGx());
         holder.Gy.setText(cursoLista.get(position).getGy());
         holder.Gz.setText(cursoLista.get(position).getGz());

@@ -31,6 +31,9 @@ public class SensorsService extends Service implements SensorEventListener{
     float pitch;
     float roll;
 
+    //Timestamp
+    String ts;
+
 
     @Override
     public void onCreate (){
@@ -67,7 +70,7 @@ public class SensorsService extends Service implements SensorEventListener{
 
     }
     public class SensBinder extends Binder {
-        SensorsService getService() {return SensorsService.this;}
+        public SensorsService getService() {return SensorsService.this;}
     }
 
     @Nullable
@@ -101,6 +104,8 @@ public class SensorsService extends Service implements SensorEventListener{
                     mags = event.values.clone();
                     break;
             }
+            Long tsLong = System.currentTimeMillis()/1000;
+            ts = tsLong.toString();
         }
         if (mags != null && accels != null) {
             Rot = new float[9];
@@ -153,6 +158,8 @@ public class SensorsService extends Service implements SensorEventListener{
     public float getAY() { return AY; }
 
     public float getAZ() { return AZ; }
+
+    public String getTs() { return ts;}
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {

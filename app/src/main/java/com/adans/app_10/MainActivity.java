@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends MenuToolbar {
 
@@ -53,8 +54,11 @@ public class MainActivity extends MenuToolbar {
         initViews();
 
         //Usuario Automatico
-        editTextEmail.setText("adan@mail.com");
-        editTextPassword.setText("123456");
+        editTextEmail.setText("wily991@gmail.com");
+        editTextPassword.setText("1234567");
+
+        //CheckPermissions
+        checkPermissions();
 
         //set click event of login button
         buttonLogin.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +100,53 @@ public class MainActivity extends MenuToolbar {
         });
 
 
+    }
+
+
+    //===========================================================================
+    //============================= PERMISSIONS  ====================================
+    public static final int MULTIPLE_PERMISSIONS = 10; // code you want.
+
+    String[] permissionsList = new String[]{
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION};
+
+
+    private  boolean checkPermissions() {
+        int result;
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        for (String p:permissionsList) {
+            result = ContextCompat.checkSelfPermission(this,p);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(p);
+            }
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),MULTIPLE_PERMISSIONS );
+            return false;
+        }
+        return true;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissionsList[], int[] grantResults) {
+        switch (requestCode) {
+            case MULTIPLE_PERMISSIONS:{
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    // permissions granted.
+                } else {
+                    String permissions = "";
+                    for (String per : permissionsList) {
+                        permissions += "\n" + per;
+                    }
+                    // permissions list of don't granted permission
+                }
+                return;
+            }
+        }
     }
 
 

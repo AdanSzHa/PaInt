@@ -5,8 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -19,11 +24,21 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.adans.app_10.GasYEmisAct;
+import com.adans.app_10.GpsDataService;
+import com.adans.app_10.MantBDD;
 import com.adans.app_10.R;
+import com.adans.app_10.SensorsService;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
+import static android.os.Environment.DIRECTORY_DOWNLOADS;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
@@ -34,7 +49,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Use the {@link CowTabFragment1#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CowTabFragment1 extends Fragment implements View.OnClickListener{
+public class CowTabFragment1 extends Fragment implements View.OnClickListener, LocationListener{
 
     private final String TAG = CowTabFragment1.class.getSimpleName();
 
@@ -69,6 +84,30 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener{
 
     private TextView sPairedDeviceTxt;
 
+    //TextVier EdoGps
+    TextView tvEdoGpsFrac;
+    //Vat Boolean EdoGPS
+    boolean EDOGPSBoo;
+    //GPS Vars
+    float LAT,LOG,Speed;
+    //Var Delay
+    Double dly=0.1;
+    //Location Manager
+    LocationManager lm;
+    //Instancia GPS App
+    GpsDataService gpsapp;
+    //Instancia Sensores Servicio
+    SensorsService sensorserv;
+    //Handler
+    private Handler mHandler = new Handler();
+    //Vars DB
+    float VAX,VAY,VAZ,VGX,VGY,VGZ;
+    String TS;Double ALT;
+    float AGX,AGY,AGZ;
+    int NOSts;
+    //Timestamp
+    String ts;
+
 
     //Preferences
     SharedPreferences prefs;
@@ -98,8 +137,13 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        EDOGPSBoo = false;
+
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = prefs.edit();
+
+        gpsapp=new GpsDataService();
+        sensorserv=new SensorsService();
 
     }
 
@@ -126,17 +170,17 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener{
         sLatTxt = (TextView) view.findViewById(R.id.txtLatTab1);
         sLonTxt = (TextView) view.findViewById(R.id.txtLonTab1);
         sSatTxt = (TextView) view.findViewById(R.id.txtSatTab1);
+        tvEdoGpsFrac= (TextView) view.findViewById(R.id.tvEdoGPSFrac);
 
         sStartBtn = (Button) view.findViewById(R.id.cowTab1StartBtn);
         sStopBtn = (Button) view.findViewById(R.id.cowTab1StopBtn);
         sBindBtn = (Button) view.findViewById(R.id.cowTab1BindBtn);
         sUnbindBtn = (Button) view.findViewById(R.id.cowTab1UnbindBtn);
-
         sUpdateBtn = (Button) view.findViewById(R.id.cowTab1UpdateBtn);
 
-
-
-
+        //Loc MAnager
+        lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, (long) (dly * 1000), 1, (android.location.LocationListener)this);
 
         //DEVICE
         //Mode radio buttons--------
@@ -178,9 +222,17 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener{
         sStartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),CowService.class);
-                getActivity().startService(intent);
-                Log.d(TAG, "START BTN CLICKED");
+                if(EDOGPSBoo) {
+                    Intent intent = new Intent(getActivity(), CowService.class);
+                    getActivity().startService(intent);
+                    Log.d(TAG, "START BTN CLICKED");
+                    //Services Methods
+                    startGPSService();
+                    starBinder();
+                    //DB Saver
+                    startRepeating();
+                }else {
+                    Toast.makeText(getApplicationContext(), "Espera la conexión del GPS", Toast.LENGTH_LONG).show(); }
             }
         });
         sStopBtn.setOnClickListener(new View.OnClickListener() {
@@ -188,6 +240,7 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener{
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(),CowService.class);
                 getActivity().stopService(intent);
+                stopRepeating();
             }
         });
         sBindBtn.setOnClickListener(new View.OnClickListener() {
@@ -199,14 +252,25 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener{
                     disposable.dispose();
                     sStatusTxt.setText(DISCONNECTED);
                     sBound=false;
-                }
-                Intent intent = new Intent(getActivity(),CowService.class);
-                getActivity().bindService(intent,sServerConn, Context.BIND_AUTO_CREATE);
 
-                String pairedDeviceMac = prefs.getString("cow_paired_mac", "Not synced");
-                String pairedDevice = prefs.getString("cow_paired_name", "COW_UNSYNCED");
-                sDeviceMacTxt.setText(pairedDeviceMac);
-                sDeviceNameTxt.setText(pairedDevice);
+                }
+                if(EDOGPSBoo) {
+                    Intent intent = new Intent(getActivity(), CowService.class);
+                    getActivity().bindService(intent, sServerConn, Context.BIND_AUTO_CREATE);
+
+                    //Services Methods
+                    startGPSService();
+                    starBinder();
+                    //DB Saver
+                    startRepeating();
+
+                    String pairedDeviceMac = prefs.getString("cow_paired_mac", "Not synced");
+                    String pairedDevice = prefs.getString("cow_paired_name", "COW_UNSYNCED");
+                    sDeviceMacTxt.setText(pairedDeviceMac);
+                    sDeviceNameTxt.setText(pairedDevice);
+                }else {
+                    Toast.makeText(getApplicationContext(), "Espera la conexión del GPS", Toast.LENGTH_LONG).show(); }
+
             }
         });
         sUnbindBtn.setOnClickListener(new View.OnClickListener() {
@@ -219,6 +283,7 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener{
                     disposable.dispose();
                     sStatusTxt.setText(DISCONNECTED);
                     sBound=false;
+                    stopRepeating();
                 }
             }
         });
@@ -385,6 +450,32 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener{
 
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        LAT = (float) location.getLatitude();
+        LOG = (float) location.getLongitude();
+        Speed = location.getSpeed();
+        tvEdoGpsFrac.setText("Gps Available");
+        EDOGPSBoo = true;
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        tvEdoGpsFrac.setText("Gps Available");
+        EDOGPSBoo = true;
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        tvEdoGpsFrac.setText("Gps Available");
+        EDOGPSBoo = true;
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -399,4 +490,126 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener{
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+    private void startGPSService() {
+        Intent serintent= new Intent(getApplicationContext(),SensorsService.class);
+        getApplicationContext().startService(serintent);
+        Intent gpsintent=new Intent(getApplicationContext(),GpsDataService.class);
+        getApplicationContext().startService(gpsintent);
+    }
+
+    private void starBinder() {
+        Intent intent = new Intent(getApplicationContext(),SensorsService.class);
+        getApplicationContext().bindService(intent, snsServerConn, Context.BIND_AUTO_CREATE);
+        Intent sintent = new Intent(getApplicationContext(),GpsDataService.class);
+        getApplicationContext().bindService(sintent,gServerConn, Context.BIND_AUTO_CREATE);
+    }
+
+    protected ServiceConnection snsServerConn = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            SensorsService.SensBinder snsbinder = (SensorsService.SensBinder) service;
+            sensorserv = snsbinder.getService();
+            sBound = true;
+            Log.d(TAG, "onSensorsServiceConnected");}
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            sBound = false;
+            Log.d(TAG, "onSensorsServiceDisconnected"); }};
+
+    protected ServiceConnection gServerConn = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            GpsDataService.GPSBinder gpsbinder = (GpsDataService.GPSBinder) service;
+            gpsapp = gpsbinder.getService();
+            sBound = true;
+            Log.d(TAG, "onGPSServiceConnected");}
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            sBound = false;
+            Log.d(TAG, "onGPSServiceDisconnected"); }};
+
+    public void startRepeating() {
+
+            mToastRunnable.run();
+            Toast.makeText(getApplicationContext(), "Guardando Datos, Cada " + dly + " Segundos", (int) (dly * 1000)).show();
+
+    }
+
+    private Runnable mToastRunnable = new Runnable() {
+        @Override
+        public void run() {
+            final MantBDD mantBDD = new MantBDD(getApplicationContext());
+            TS =sensorserv.getTs();
+            VAX=sensorserv.getVAX();
+            VAY=sensorserv.getVAY();
+            VAZ=sensorserv.getVAZ();
+            VGX=sensorserv.getVGX();
+            VGY=sensorserv.getVGY();
+            VGZ=sensorserv.getVGZ();
+            AGX=sensorserv.getAX();
+            AGY=sensorserv.getAY();
+            AGZ=sensorserv.getAZ();
+            ALT=gpsapp.getNMEAAlt();
+            NOSts=gpsapp.getNoSats();
+
+
+            mantBDD.agregarCurso(TS,VAX, VAY, VAZ, VGX, VGY, VGZ, AGX, AGY, Speed, LAT, LOG, ALT, NOSts);
+            //float AX=sensorserv.getAX(); float AY=sensorserv.getAY(); float AZ=sensorserv.getAZ();
+
+            //tvPerfil.setText(String.valueOf(AX)); tvConsumo.setText(String.valueOf(AY));tvEmisiones.setText(String.valueOf(AZ));
+
+            //ActLabels();
+
+            Double dlyto = 0.1;//Segundos
+            mHandler.postDelayed(this, (long) (dlyto * 1000));
+
+        }
+    };
+
+    public void stopRepeating() {
+        mHandler.removeCallbacks(mToastRunnable);
+        exportDatabse("BDDSensors");
+        stopGPSService();
+    }
+    private void stopGPSService() {
+        Intent serintent= new Intent(getApplicationContext(),GpsDataService.class);
+        getApplicationContext().stopService(serintent);
+        Intent sensintent=new Intent(getApplicationContext(),SensorsService.class);
+        getApplicationContext().stopService(sensintent);
+        if(sBound) {
+            getApplicationContext().unbindService(snsServerConn);
+            getApplicationContext().unbindService(gServerConn);
+            sBound=false;};
+    }
+    //Sql-Memory
+    public void exportDatabse(String BDDSensors) {
+        Long tsLong = System.currentTimeMillis()/1000;
+        ts = tsLong.toString();
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+            File sdDow = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS);
+
+            if (sd.canWrite()) {
+                String currentDBPath = "//data//" + getActivity().getPackageName() + "//databases//" + BDDSensors + "";
+                String backupDBPath = ts + " backupBDD" + ".db";
+                File currentDB = new File(data, currentDBPath);
+                File backupDB = new File(sdDow, backupDBPath);
+                Toast.makeText(getApplicationContext(), "Guardando BDD", Toast.LENGTH_SHORT).show();
+
+                if (currentDB.exists()) {
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                }
+            }
+        } catch (Exception e) {
+        }
+    }
+
+
 }

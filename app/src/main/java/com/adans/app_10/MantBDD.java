@@ -26,8 +26,7 @@ public class MantBDD extends SQLiteOpenHelper {
     //Generamos el constructor de la clase
     //Dejas solo (Context,context)
 
-    public MantBDD(Context context) {
-        super(context, NOMBRE_BDD, null, VERSION_BDD);
+    public MantBDD(Context context) { super(context, NOMBRE_BDD, null, VERSION_BDD);
     }
 
     //Generas el OnCreate para las tablas

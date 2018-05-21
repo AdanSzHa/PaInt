@@ -273,7 +273,7 @@ public class PruebaAct extends AppCompatActivity implements LocationListener,Gps
     private Runnable mToastRunnable = new Runnable() {
         @Override
         public void run() {
-            getLocation();
+            /*
             final MantBDD mantBDD = new MantBDD(getApplicationContext());
             TS =sensorserv.getTs();
             VAX=sensorserv.getVAX();
@@ -289,7 +289,7 @@ public class PruebaAct extends AppCompatActivity implements LocationListener,Gps
             NOSts=gpsapp.getNoSats();
 
 
-            mantBDD.agregarCurso(TS,VAX, VAY, VAZ, VGX, VGY, VGZ, AGX, AGY, AGZ, LAT, LOG, ALT, NOSts);
+            //mantBDD.agregarCurso(TS,VAX, VAY, VAZ, VGX, VGY, VGZ, AGX, AGY, AGZ, LAT, LOG, ALT, NOSts);
             float AX=sensorserv.getAX(); float AY=sensorserv.getAY(); float AZ=sensorserv.getAZ();
 
             tvPerfil.setText(String.valueOf(AX)); tvConsumo.setText(String.valueOf(AY));tvEmisiones.setText(String.valueOf(AZ));
@@ -298,8 +298,7 @@ public class PruebaAct extends AppCompatActivity implements LocationListener,Gps
 
             Double dlyto = 0.1;//Segundos
             mHandler.postDelayed(this, (long) (dlyto * 1000));
-
-
+        */
         }
     };
 

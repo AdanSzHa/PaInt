@@ -29,11 +29,18 @@ import com.adans.app_10.GpsDataService;
 import com.adans.app_10.MantBDD;
 import com.adans.app_10.R;
 import com.adans.app_10.SensorsService;
+import com.opencsv.CSVWriter;
+
+import org.apache.poi.ss.formula.eval.StringValueEval;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -89,7 +96,7 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
     //Vat Boolean EdoGPS
     boolean EDOGPSBoo;
     //GPS Vars
-    float LAT,LOG,Speed;
+    String LAT,LOG,Speed;
     //Var Delay
     Double dly=0.1;
     //Location Manager
@@ -101,19 +108,28 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
     //Handler
     private Handler mHandler = new Handler();
     //Vars DB
-    float VAX,VAY,VAZ,VGX,VGY,VGZ;
-    String TS;Double ALT;
-    float AGX,AGY,AGZ;
-    int NOSts;
+    String TS,VAX,VAY,VAZ,VGX,VGY,VGZ,ALT,AGX,AGY,AGZ,NOSts;
+
     //Timestamp
     String ts;
-
+    //Data line
+    String dataline;
 
     //Preferences
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
 
     private OnFragmentInteractionListener mListener;
+
+    //Data Wirter CSV
+    CSVWriter DBCSVwriter;
+    FileWriter mFileWriter;
+
+    //Timestamp
+    Long tsLong;
+
+    //Var hour
+    int hr;
 
     public CowTabFragment1() {
         // Required empty public constructor
@@ -144,6 +160,13 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
 
         gpsapp=new GpsDataService();
         sensorserv=new SensorsService();
+
+        tsLong = System.currentTimeMillis()/1000;
+        ts = String.valueOf(tsLong);
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR, 24);
+        hr = cal.get(Calendar.HOUR);
 
     }
 
@@ -452,9 +475,9 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
 
     @Override
     public void onLocationChanged(Location location) {
-        LAT = (float) location.getLatitude();
-        LOG = (float) location.getLongitude();
-        Speed = location.getSpeed();
+        LAT = String.valueOf(location.getLatitude());
+        LOG = String.valueOf(location.getLongitude());
+        Speed = String.valueOf(location.getSpeed());
         tvEdoGpsFrac.setText("Gps Available");
         EDOGPSBoo = true;
     }
@@ -538,34 +561,79 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
     }
 
     private Runnable mToastRunnable = new Runnable() {
+
+        String baseDir = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
+        String hrs=String.valueOf(hr);
+        String fileName =hrs+"_DBPrueba"+".csv";
+        String filePath = baseDir + File.separator + fileName;
+        File f = new File(filePath );
         @Override
         public void run() {
             final MantBDD mantBDD = new MantBDD(getApplicationContext());
             TS =sensorserv.getTs();
-            VAX=sensorserv.getVAX();
-            VAY=sensorserv.getVAY();
-            VAZ=sensorserv.getVAZ();
-            VGX=sensorserv.getVGX();
-            VGY=sensorserv.getVGY();
-            VGZ=sensorserv.getVGZ();
-            AGX=sensorserv.getAX();
-            AGY=sensorserv.getAY();
-            AGZ=sensorserv.getAZ();
-            ALT=gpsapp.getNMEAAlt();
-            NOSts=gpsapp.getNoSats();
+            VAX=String.valueOf(sensorserv.getVAX());
+            VAY=String.valueOf(sensorserv.getVAY());
+            VAZ=String.valueOf(sensorserv.getVAZ());
+            VGX=String.valueOf(sensorserv.getVGX());
+            VGY=String.valueOf(sensorserv.getVGY());
+            VGZ=String.valueOf(sensorserv.getVGZ());
+            AGX=String.valueOf(sensorserv.getAX());
+            AGY=String.valueOf(sensorserv.getAY());
+            AGZ=String.valueOf(sensorserv.getAZ());
+            ALT=String.valueOf(gpsapp.getNMEAAlt());
+            NOSts=String.valueOf(gpsapp.getNoSats());
 
 
             mantBDD.agregarCurso(TS,VAX, VAY, VAZ, VGX, VGY, VGZ, AGX, AGY, Speed, LAT, LOG, ALT, NOSts);
             //float AX=sensorserv.getAX(); float AY=sensorserv.getAY(); float AZ=sensorserv.getAZ();
 
+            try {
+                // IF File exist
+                if (f.exists() && !f.isDirectory()) {
+                    mFileWriter = new FileWriter(filePath, true);
+                    DBCSVwriter = new CSVWriter(mFileWriter);
+                } else {
+                    DBCSVwriter = new CSVWriter(new FileWriter(filePath));
+                }
+                //String[] data = {"Ship Name","Scientist Name", "...",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").formatter.format(date)});
+
+                String[] entries = new String[15];// array of your values
+                entries[0] = TS;entries[1] = VAX;entries[2] = VAY;entries[3] = VAZ;entries[4] = VGX;
+                entries[5] = VGY;entries[6] = VGZ;entries[7] = AGX;entries[8] = AGY;entries[9] = AGZ;
+                entries[10] = LAT;entries[11] = LOG;entries[12] = ALT;entries[13] = NOSts;entries[14] = Speed;
+
+                DBCSVwriter.writeNext(entries);
+
+                DBCSVwriter.close();
+            }catch (IOException e)
+            {
+                //error
+            }
+
+            /*try
+            {
+                DWriter = new CSVWriter(new FileWriter("/sdcard/CowAdas/CSVDB.csv"), ',');
+                String[] entries = new String[15];// array of your values
+                entries[0]=TS;entries[1]=VAX;entries[2]=VAY;entries[3]=VAZ;entries[4]=VGX;entries[5]=VGY;entries[6]=VGZ;
+                entries[7]=AGX;entries[8]=AGY;entries[9]=AGZ;entries[10]=LAT;entries[11]=LOG;entries[12]=ALT;entries[13]=NOSts;
+                entries[14]=Speed;
+                DWriter.writeNext(entries);
+                DWriter.close();
+            }
+            catch (IOException e)
+            {
+                //error
+            }*/
+
+            //dataline=(TS+"2223"+VAX+VAY+VAZ+VGX+VGY+VGZ+AGX+AGY+Speed+LAT+LOG+ALT+NOSts+"/n");
             //tvPerfil.setText(String.valueOf(AX)); tvConsumo.setText(String.valueOf(AY));tvEmisiones.setText(String.valueOf(AZ));
 
             //ActLabels();
 
             Double dlyto = 0.1;//Segundos
             mHandler.postDelayed(this, (long) (dlyto * 1000));
-
         }
+
     };
 
     public void stopRepeating() {
@@ -585,8 +653,6 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
     }
     //Sql-Memory
     public void exportDatabse(String BDDSensors) {
-        Long tsLong = System.currentTimeMillis()/1000;
-        ts = tsLong.toString();
         try {
             File sd = Environment.getExternalStorageDirectory();
             File data = Environment.getDataDirectory();
@@ -611,5 +677,7 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
         }
     }
 
-
+    public String getDataline() {
+        return dataline;
+    }
 }

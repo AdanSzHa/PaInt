@@ -43,7 +43,7 @@ public class MantBDD extends SQLiteOpenHelper {
         sqldb.execSQL("DROP TABLE IF EXISTS CURSOS"+TABLA_CURSOS);
         sqldb.execSQL(TABLA_CURSOS);
     }
-    public void agregarCurso(String ts, float ax, float ay, float az, float gx, float gy,float gz, float agx, float agy, float agz, float log, float lat, Double alt, int nosats){
+    public void agregarCurso(String ts, String ax, String ay, String az, String gx, String gy, String gz, String agx, String agy, String agz, String log, String lat, String alt, String nosats){
 
         SQLiteDatabase db=getWritableDatabase();
         if(db!=null){

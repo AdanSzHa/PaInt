@@ -43,6 +43,7 @@ public class BtMessageManager {
     public static String MessagePurged = "";
     public static String MessagePurgedCopy = "";
 
+    CowTabFragment1 CowFac1=new CowTabFragment1();
 
     // -- Constructors
     public BtMessageManager(){ //Default constructor
@@ -116,6 +117,7 @@ public class BtMessageManager {
 
     public void updateAll(){
         String[] messageSplitStr;
+        //Data line from CowFracment 1
         messageSplitStr = Message.split("\n");
         MessagePurged = "";
 

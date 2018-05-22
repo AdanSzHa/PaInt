@@ -93,18 +93,15 @@ public class PruebaAct extends AppCompatActivity implements LocationListener,Gps
     //No. de satelites
     int NoSats;
     TextView tvNoSats,tvSpeed;
-
     //Boolean del Bind
     boolean sBound = false;
-
     //Instancia GPS App
     GpsDataService gpsapp;
-
     //Instancia Sensores Servicio
     SensorsService sensorserv;
-
     //Tiempo
     Date currentTime;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

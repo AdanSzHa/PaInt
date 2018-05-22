@@ -41,6 +41,8 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -112,8 +114,11 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
 
     //Timestamp
     String ts;
+    public static String tss;
     //Data line
     String dataline;
+
+    private String dateString2; //format yyMMdd_hhmm_ss_SSS
 
     //Preferences
     SharedPreferences prefs;
@@ -130,6 +135,8 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
 
     //Var hour
     int hr;
+
+    String fecha;
 
     public CowTabFragment1() {
         // Required empty public constructor
@@ -254,6 +261,7 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
                     starBinder();
                     //DB Saver
                     startRepeating();
+                    tss=ts;
                 }else {
                     Toast.makeText(getApplicationContext(), "Espera la conexión del GPS", Toast.LENGTH_LONG).show(); }
             }
@@ -286,6 +294,7 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
                     starBinder();
                     //DB Saver
                     startRepeating();
+                    tss=ts;
 
                     String pairedDeviceMac = prefs.getString("cow_paired_mac", "Not synced");
                     String pairedDevice = prefs.getString("cow_paired_name", "COW_UNSYNCED");
@@ -557,6 +566,10 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
 
             mToastRunnable.run();
             Toast.makeText(getApplicationContext(), "Guardando Datos, Cada " + dly + " Segundos", (int) (dly * 1000)).show();
+        /*
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            Date date = new Date();
+            fecha = dateFormat.format(date);*/
 
     }
 
@@ -564,7 +577,7 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
 
         String baseDir = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
         String hrs=String.valueOf(hr);
-        String fileName =hrs+"_DBPrueba"+".csv";
+        String fileName =(getDateString()+"_DBPrueba"+".csv");
         String filePath = baseDir + File.separator + fileName;
         File f = new File(filePath );
         @Override
@@ -660,7 +673,7 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
 
             if (sd.canWrite()) {
                 String currentDBPath = "//data//" + getActivity().getPackageName() + "//databases//" + BDDSensors + "";
-                String backupDBPath = ts + " backupBDD" + ".db";
+                String backupDBPath = getDateString() + " backupBDD" + ".db";
                 File currentDB = new File(data, currentDBPath);
                 File backupDB = new File(sdDow, backupDBPath);
                 Toast.makeText(getApplicationContext(), "Guardando BDD", Toast.LENGTH_SHORT).show();
@@ -679,5 +692,14 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
 
     public String getDataline() {
         return dataline;
+    }
+    public String getDateString() {
+        long tsLong;
+        tsLong = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd_HHmm_ss_SSS");//"MMM dd,yyyy HH:mm:ss");
+        Date resultdate = new Date(tsLong);
+        String rsltDate = sdf.format(resultdate);
+        dateString2 = rsltDate;
+        return dateString2;
     }
 }

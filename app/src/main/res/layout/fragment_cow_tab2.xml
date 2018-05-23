@@ -24,52 +24,51 @@
 
         <TextView
             android:id="@+id/speedTxtTab2"
-            android:text="87 km/h"
             android:layout_width="fill_parent"
-            android:layout_height="30dp"
+            android:layout_height="50dp"
             android:layout_marginTop="60dp"
             android:layout_weight="1"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textAlignment="center"
+            android:background="@android:color/holo_red_dark"
             android:gravity="center_vertical"
-            android:background="@android:color/holo_red_dark">
-        </TextView>
+            android:text="87 km/h"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textStyle="bold"></TextView>
 
         <TextView
             android:id="@+id/consumptionTxtTab2"
-            android:text="12 lt/km"
             android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="60dp"
+            android:layout_height="50dp"
             android:layout_below="@id/speedTxtTab2"
+            android:layout_marginTop="60dp"
             android:layout_weight="1"
-            android:textStyle="bold"
-            android:textSize="20sp"
+            android:background="@android:color/holo_orange_light"
+            android:gravity="center_vertical"
+            android:text="12 lt/km"
             android:textAlignment="center"
-            android:background="@android:color/holo_orange_light">
-        </TextView>
+            android:textSize="30sp"
+            android:textStyle="bold"></TextView>
 
         <TextView
             android:id="@+id/emisionsTxtTab2"
-            android:text="5 CO2"
             android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="60dp"
+            android:layout_height="50dp"
             android:layout_below="@id/consumptionTxtTab2"
+            android:layout_marginTop="60dp"
             android:layout_weight="1"
-            android:textStyle="bold"
-            android:textSize="20sp"
+            android:background="@android:color/holo_green_light"
+            android:gravity="center_vertical"
+            android:text="5 CO2"
             android:textAlignment="center"
-            android:background="@android:color/holo_green_light">
-        </TextView>
+            android:textSize="30sp"
+            android:textStyle="bold"></TextView>
 
     </RelativeLayout>
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="192dp"
+            android:layout_height="311dp"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:src="@mipmap/ic_cow_black_nbg" />

@@ -1,5 +1,4 @@
 package com.adans.app_10.JavaTest;
-
 import com.adans.app_10.Cowtech54.Util;
 
 /**

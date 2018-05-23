@@ -146,9 +146,10 @@ public class BtMessageManager {
                 //Delete
                 Number timePeriod = MatIDs.get(currentIDNum.intValue()).getTimePeriod();
 
+                //Modifi
                 //Log.d("MessageMannager: ", "Time period " + timePeriod);
-                Number tP = 180.0;
-                Number offset = 60.0; //Seconds to delete
+                Number tP = 60.0;
+                Number offset = 30.0; //Seconds to delete
                 if((double)timePeriod>(double)tP){
                     while((double)timePeriod>(double)tP - (double)offset) {//Delete first Offset sec
                         //Log.d("MessageMannager: ", "Removing items");
@@ -159,7 +160,7 @@ public class BtMessageManager {
 
                 recIDs++;
             }else{
-                if(messageSplitStr[i].length()>1)   lostIDs++;
+                if(messageSplitStr[i].length()>1)lostIDs++;
             }
         }
         //Delete first enter from message

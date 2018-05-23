@@ -261,7 +261,6 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
                     starBinder();
                     //DB Saver
                     startRepeating();
-                    tss=ts;
                 }else {
                     Toast.makeText(getApplicationContext(), "Espera la conexión del GPS", Toast.LENGTH_LONG).show(); }
             }
@@ -576,7 +575,6 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
     private Runnable mToastRunnable = new Runnable() {
 
         String baseDir = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
-        String hrs=String.valueOf(hr);
         String fileName =(getDateString()+"_DBPrueba"+".csv");
         String filePath = baseDir + File.separator + fileName;
         File f = new File(filePath );
@@ -622,26 +620,6 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
             {
                 //error
             }
-
-            /*try
-            {
-                DWriter = new CSVWriter(new FileWriter("/sdcard/CowAdas/CSVDB.csv"), ',');
-                String[] entries = new String[15];// array of your values
-                entries[0]=TS;entries[1]=VAX;entries[2]=VAY;entries[3]=VAZ;entries[4]=VGX;entries[5]=VGY;entries[6]=VGZ;
-                entries[7]=AGX;entries[8]=AGY;entries[9]=AGZ;entries[10]=LAT;entries[11]=LOG;entries[12]=ALT;entries[13]=NOSts;
-                entries[14]=Speed;
-                DWriter.writeNext(entries);
-                DWriter.close();
-            }
-            catch (IOException e)
-            {
-                //error
-            }*/
-
-            //dataline=(TS+"2223"+VAX+VAY+VAZ+VGX+VGY+VGZ+AGX+AGY+Speed+LAT+LOG+ALT+NOSts+"/n");
-            //tvPerfil.setText(String.valueOf(AX)); tvConsumo.setText(String.valueOf(AY));tvEmisiones.setText(String.valueOf(AZ));
-
-            //ActLabels();
 
             Double dlyto = 0.1;//Segundos
             mHandler.postDelayed(this, (long) (dlyto * 1000));
@@ -701,5 +679,13 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
         String rsltDate = sdf.format(resultdate);
         dateString2 = rsltDate;
         return dateString2;
+    }
+
+    public String getTS() {
+        return TS;
+    }
+
+    public String getAGY() {
+        return AGY;
     }
 }

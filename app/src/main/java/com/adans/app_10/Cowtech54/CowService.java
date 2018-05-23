@@ -30,7 +30,6 @@ import java.util.UUID;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 
 public class CowService extends Service{
     private final String TAG = CowService.class.getSimpleName();
@@ -107,9 +106,23 @@ public class CowService extends Service{
         return error;
     }
 
+    //Counter of repetings
+    public int CountReps=0;
+    //Array Data [30]
+    public double[] ArrTsVel= new double[45];;
+    public double[] ArrVel= new double[45];;
+    public double[] ArrTsSens= new double[45];;
+    public double[] ArrInc= new double[45];
+
+    double[] VelInterp, IncInterp;
+
+    CowTabFragment1 cowf1= new CowTabFragment1();
+
+
     @Override
     public void onCreate() {
         super.onCreate();
+
 
         Log.d(TAG, "Cow Service started");
         mBTAdapter = BluetoothAdapter.getDefaultAdapter(); // get a handle on the bluetooth radio
@@ -158,6 +171,21 @@ public class CowService extends Service{
                         fileCSV.writeInFile(btMessageManager.getMessagePurgedCopy());
                     //mReadBuffer.setText(readMessage);
 
+                    //Aquí
+                    if(CountReps<=44)
+                    {
+                        ArrTsVel[CountReps]= (Double) btMessageManager.MatIDs.get(2037).getByte1().getLast();
+                        ArrVel[CountReps]= (Double) btMessageManager.MatIDs.get(2037).getByte2().getLast();
+                        ArrTsSens[CountReps]= Double.valueOf(cowf1.getTS());
+                        ArrInc[CountReps]= Double.valueOf(cowf1.getAGY());
+                    }
+                    else {
+                        Interp(ArrTsVel,ArrVel,ArrTsSens,ArrInc);
+                    }
+                    CountReps++;
+
+
+
                     //Send to tue UI activity through Observer
                     if(stringObserver!=null){
                         String fileStr = "";
@@ -192,7 +220,12 @@ public class CowService extends Service{
                 }
             }
         };
+    }
 
+    private double[] Interp(double[] arrTsVel, double[] arrVel, double[] arrTsSens, double[] arrInc) {
+        VelInterp=Util.interpLinear(ArrTsVel,ArrVel,ArrTsSens);
+        IncInterp=Util.interpLinear(ArrTsSens,ArrInc,ArrTsVel);
+        return VelInterp;
     }
 
     //RxJava Observable
@@ -468,5 +501,9 @@ public class CowService extends Service{
         // TODO: Return the communication channel to the service.
         //throw new UnsupportedOperationException("Not yet implemented");
         return cBinder;
+    }
+
+    public double[] getVelInterp() {
+        return VelInterp;
     }
 }

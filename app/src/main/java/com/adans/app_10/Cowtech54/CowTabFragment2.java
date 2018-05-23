@@ -1,8 +1,11 @@
 package com.adans.app_10.Cowtech54;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +26,11 @@ public class CowTabFragment2 extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    CowService cowService2;
+    CowService.CowBinder cowBinder2;
+
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -58,8 +66,33 @@ public class CowTabFragment2 extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            
         }
+
     }
+
+
+    protected ServiceConnection CowServerConn = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+
+            CowService.CowBinder binder2 = (CowService.CowBinder) service;
+            cowService2 = binder2.getService();
+
+
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+
+        @Override
+        public void onBindingDied(ComponentName name) {
+
+        }
+
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -106,5 +139,4 @@ public class CowTabFragment2 extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
 }

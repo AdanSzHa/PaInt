@@ -83,6 +83,9 @@ public class CowService extends Service{
     private Observable<String[]> stringObservable;
     private String[] myEmitter = new String[10];
 
+    //Var fule
+    Double Fuleprom;
+
     public CowService() {
     }
 
@@ -113,6 +116,8 @@ public class CowService extends Service{
     public double[] ArrVel= new double[45];;
     public double[] ArrTsSens= new double[45];;
     public double[] ArrInc= new double[45];
+
+    Double FuleC;
 
     double[] VelInterp, IncInterp;
 
@@ -223,8 +228,21 @@ public class CowService extends Service{
     }
 
     private double[] Interp(double[] arrTsVel, double[] arrVel, double[] arrTsSens, double[] arrInc) {
-        VelInterp=Util.interpLinear(ArrTsVel,ArrVel,ArrTsSens);
-        IncInterp=Util.interpLinear(ArrTsSens,ArrInc,ArrTsVel);
+        VelInterp=Util.interpLinear(arrTsVel,arrVel,arrTsSens);
+        IncInterp=Util.interpLinear(arrTsSens,arrInc,arrTsVel);
+        Double FuleAcum=0.0;
+
+        for(int c=0;c >= VelInterp.length;c++){
+            //Inc Inicial
+            int IncI=30;
+            Double Acel=0.5;
+            FuleC=10.12+1.098*(IncInterp[c]-IncI)+5.901*Acel-0.844*VelInterp[c]+0.0354*(VelInterp[c]*VelInterp[c])
+                    -0.0003*(VelInterp[c]*VelInterp[c]*VelInterp[c]);
+            FuleAcum=FuleAcum+FuleC;
+
+        }
+        Fuleprom=FuleAcum/(VelInterp.length);
+
         return VelInterp;
     }
 
@@ -505,5 +523,9 @@ public class CowService extends Service{
 
     public double[] getVelInterp() {
         return VelInterp;
+    }
+
+    public double[] getIncInterp() {
+        return IncInterp;
     }
 }

@@ -23,10 +23,11 @@
 
 
         <TextView
-            android:id="@+id/speedTxtTab2"
+            android:id="@+id/tvPerfilFrac"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:layout_marginTop="60dp"
+            android:textColor="@color/white"
             android:layout_weight="1"
             android:background="@android:color/holo_red_dark"
             android:gravity="center_vertical"
@@ -36,10 +37,10 @@
             android:textStyle="bold"></TextView>
 
         <TextView
-            android:id="@+id/consumptionTxtTab2"
+            android:id="@+id/tvConsumoFrac"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
-            android:layout_below="@id/speedTxtTab2"
+            android:layout_below="@id/tvPerfilFrac"
             android:layout_marginTop="60dp"
             android:layout_weight="1"
             android:background="@android:color/holo_orange_light"
@@ -47,13 +48,15 @@
             android:text="12 lt/km"
             android:textAlignment="center"
             android:textSize="30sp"
+            android:textColor="@color/white"
             android:textStyle="bold"></TextView>
 
         <TextView
-            android:id="@+id/emisionsTxtTab2"
+            android:id="@+id/tvEmisFrac"
             android:layout_width="fill_parent"
+            android:textColor="@color/white"
             android:layout_height="50dp"
-            android:layout_below="@id/consumptionTxtTab2"
+            android:layout_below="@id/tvConsumoFrac"
             android:layout_marginTop="60dp"
             android:layout_weight="1"
             android:background="@android:color/holo_green_light"

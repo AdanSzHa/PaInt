@@ -111,6 +111,7 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
     private Handler mHandler = new Handler();
     //Vars DB
     String TS,VAX,VAY,VAZ,VGX,VGY,VGZ,ALT,AGX,AGY,AGZ,NOSts;
+    String FC;
 
     //Timestamp
     String ts;
@@ -593,7 +594,7 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
             AGZ=String.valueOf(sensorserv.getAZ());
             ALT=String.valueOf(gpsapp.getNMEAAlt());
             NOSts=String.valueOf(gpsapp.getNoSats());
-
+            //FC=String.valueOf(cowService.getFuleprom());
 
             mantBDD.agregarCurso(TS,VAX, VAY, VAZ, VGX, VGY, VGZ, AGX, AGY, Speed, LAT, LOG, ALT, NOSts);
             //float AX=sensorserv.getAX(); float AY=sensorserv.getAY(); float AZ=sensorserv.getAZ();
@@ -612,6 +613,9 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
                 entries[0] = TS;entries[1] = VAX;entries[2] = VAY;entries[3] = VAZ;entries[4] = VGX;
                 entries[5] = VGY;entries[6] = VGZ;entries[7] = AGX;entries[8] = AGY;entries[9] = AGZ;
                 entries[10] = LAT;entries[11] = LOG;entries[12] = ALT;entries[13] = NOSts;entries[14] = Speed;
+                //entries[15] = FC;
+
+                String[] speedprm= new String[300];
 
                 DBCSVwriter.writeNext(entries);
 
@@ -687,5 +691,9 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
 
     public String getAGY() {
         return AGY;
+    }
+
+    public boolean isEDOGPSBoo() {
+        return EDOGPSBoo;
     }
 }

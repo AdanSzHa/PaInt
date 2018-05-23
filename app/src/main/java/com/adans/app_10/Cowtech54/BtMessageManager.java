@@ -1,5 +1,6 @@
 package com.adans.app_10.Cowtech54;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -255,16 +256,21 @@ public class BtMessageManager {
         try {
             for (int i = 0; i < numArr.length; i++) {
                 //numArr[i] = Integer.parseInt(arr[i]);
-                if (arr[i].length() > 0 && arr[i].length() < 20) {
-                    //numArr[i] = Integer.parseInt(arr[i]);
+                try {
+                    if (arr[i].length() > 0 && arr[i].length() < 20) {
+                        //numArr[i] = Integer.parseInt(arr[i]);
 
-                    numArr[i] = Double.parseDouble(arr[i]);
-                } else numArr[i] = 0;
+                        numArr[i] = Double.parseDouble(arr[i]);
+                    } else numArr[i] = 0;
+                }catch(NumberFormatException e){
+                    e.printStackTrace();
+                    return new Number[3];
+                }
 
             }
         }catch(NumberFormatException e){
             e.printStackTrace();
-            return new Number[arr.length];
+            return new Number[3];
         }
         return numArr;
     }

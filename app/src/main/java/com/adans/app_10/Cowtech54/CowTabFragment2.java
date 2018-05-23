@@ -2,16 +2,22 @@ package com.adans.app_10.Cowtech54;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.adans.app_10.R;
+import com.adans.app_10.SensorsService;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,13 +34,18 @@ public class CowTabFragment2 extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     CowService cowService2;
-    CowService.CowBinder cowBinder2;
+
+    CowTabFragment1 cowfrac1;
+
+    TextView tvPerfil,tvConsumo,tvEmis;
 
 
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private Handler nHandler = new Handler();
 
     private OnFragmentInteractionListener mListener;
 
@@ -66,8 +77,12 @@ public class CowTabFragment2 extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-            
+
+            Intent cowintent = new Intent(getApplicationContext(),CowService.class);
+            getApplicationContext().bindService(cowintent, CowServerConn, Context.BIND_AUTO_CREATE);
         }
+
+        cowfrac1=new CowTabFragment1();
 
     }
 
@@ -94,12 +109,36 @@ public class CowTabFragment2 extends Fragment {
 
     };
 
+    View view;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cow_tab2, container, false);
+        view = inflater.inflate(R.layout.fragment_cow_tab2, container, false);
+        tvPerfil=(TextView) view.findViewById(R.id.tvPerfilFrac);
+        UpdLabels();
+        return null;
     }
+
+    private void UpdLabels() {
+
+        nToastRunnable.run();
+
+    }
+
+    private Runnable nToastRunnable = new Runnable() {
+        @Override
+        public void run() {
+
+            if(cowfrac1.isEDOGPSBoo()) {
+                tvPerfil.setText(String.valueOf(cowService2.getFuleprom()) + " lt/100km");
+            }
+
+            double dlyto = 10;//Segundos
+            nHandler.postDelayed(this, (long) (dlyto * 1000));
+        }
+    };
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

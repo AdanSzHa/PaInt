@@ -27,12 +27,12 @@
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:layout_marginTop="60dp"
-            android:textColor="@color/white"
             android:layout_weight="1"
             android:background="@android:color/holo_red_dark"
             android:gravity="center_vertical"
-            android:text="87 km/h"
+            android:text="--------"
             android:textAlignment="center"
+            android:textColor="@color/white"
             android:textSize="30sp"
             android:textStyle="bold"></TextView>
 

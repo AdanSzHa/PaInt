@@ -43,7 +43,7 @@
         <service android:name=".SensorsService" />
         <service android:name=".GpsDataService" />
 
-        <activity android:name=".IndicacionesAct"></activity>
+        <activity android:name=".IndicacionesAct" />
 
         <service android:name=".Cowtech54.CowService" />
 
@@ -55,7 +55,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.adans.app_10.PerfilAct" />
         </activity>
-
         <activity
             android:name=".Cowtech54.CowTabActivity"
             android:label="@string/title_activity_cow_tab"
@@ -69,6 +68,7 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
+        <activity android:name=".VehicleRegAct"></activity>
     </application>
 
 </manifest>

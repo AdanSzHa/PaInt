@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".VehicleRegAct">
+
+
+    <EditText
+        android:id="@+id/editText7"
+        android:layout_width="340dp"
+        android:layout_height="50dp"
+        android:background="@color/black"
+        android:ems="10"
+        android:hint="[ Gearbox ]"
+        android:inputType="textPersonName"
+        android:paddingLeft="8.5dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/editText5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText4" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="117dp"
+        android:layout_height="38dp"
+        android:text="Admin"
+        android:textColor="@color/black"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.136"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="303dp"
+        android:layout_height="44dp"
+        android:text="Registers a vehicle please"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/editText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.277"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="340dp"
+        android:layout_height="50dp"
+        android:background="@color/black"
+        android:ems="10"
+        android:hint="[ Vehicle Model ]"
+        android:inputType="textPersonName"
+        android:paddingLeft="8.5dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="27.5sp"
+        app:layout_constraintBottom_toTopOf="@+id/editText3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="341dp"
+        android:layout_height="50dp"
+        android:background="@color/black"
+        android:ems="10"
+        android:hint="[ Year ]"
+        android:inputType="textPersonName"
+        android:paddingLeft="8.5dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="27.5sp"
+        app:layout_constraintBottom_toTopOf="@+id/editText2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="340dp"
+        android:layout_height="50dp"
+        android:background="@color/black"
+        android:ems="10"
+        android:hint="[ Speed limit (km/h) ]"
+        android:inputType="textPersonName"
+        android:paddingLeft="8.5dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="27.5sp"
+        app:layout_constraintBottom_toTopOf="@+id/editText4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+
+
+    <EditText
+        android:id="@+id/editText4"
+        android:layout_width="340dp"
+        android:layout_height="50dp"
+        android:background="@color/black"
+        android:ems="10"
+        android:hint="[ Tank capacity (lt) ]"
+        android:inputType="textPersonName"
+        android:paddingLeft="8.5dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="27.5sp"
+        app:layout_constraintBottom_toTopOf="@+id/editText7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+
+    <EditText
+        android:id="@+id/editText5"
+        android:layout_width="340dp"
+        android:layout_height="50dp"
+        android:background="@color/black"
+        android:ems="10"
+        android:hint="[ Plates ]"
+        android:inputType="textPersonName"
+        android:paddingLeft="8.5dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="27.5sp"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText7" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="172dp"
+        android:layout_height="wrap_content"
+        android:text="register"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.564"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText5"
+        android:onClick="ClickReg"/>
+
+
+</android.support.constraint.ConstraintLayout>

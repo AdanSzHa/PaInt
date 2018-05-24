@@ -249,7 +249,6 @@ public class CowTabFragment1 extends Fragment implements View.OnClickListener, L
 
         //Mode end radio buttons
 
-
         sStartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

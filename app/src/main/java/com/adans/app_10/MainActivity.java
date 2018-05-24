@@ -80,7 +80,7 @@ public class MainActivity extends MenuToolbar {
                         Snackbar.make(buttonLogin, "Inicio de sesión exitosos", Snackbar.LENGTH_LONG).show();
 
                         //User Logged in Successfully Launch You home screen activity
-                       Intent intent=new Intent(MainActivity.this,PerfilAct.class);
+                       Intent intent=new Intent(MainActivity.this,VehicleRegAct.class);
 
                        Bundle MBund = new Bundle();
                        MBund.putString("Email",editTextEmail.getText().toString());

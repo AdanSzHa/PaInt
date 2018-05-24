@@ -19,6 +19,35 @@ public class TestInterpolation {
         velInterp = Util.interpLinear(timeVel,vel,timeRPM);
         rpmInterp = Util.interpLinear(timeRPM,RPM,timeVel);
 
+        double[] gear=new double[velInterp.length];
+        for (int c=0;c<=velInterp.length-11;c++){
+            gear[c]=velInterp[c]/rpmInterp[c];
+        }
+        int[] Gears=new int[75];
+        for (int c=0;c<=70;c++)
+        {
+            if (gear[c]<=0.01) { Gears[c]=1;}
+            if (gear[c]>0.01&&gear[c]<=0.02) { Gears[c]=2;}
+            if (gear[c]>0.02&&gear[c]<=0.03) { Gears[c]=3;}
+            if (gear[c]>0.03&&gear[c]<=0.04) { Gears[c]=4;}
+            if (gear[c]>0.04&&gear[c]<=0.05) { Gears[c]=5;}
+        }
+        int Cd=0;
+        int Cdp=0;
+        int[] CdC=new int[14];
+        for(int c=1;c<70;c++){
+            if (Gears[c]!=Gears[c+1]){Cd++;}
+
+            if(c%5==0){ if (Gears[c]!=Gears[c+1]){Cd++;}
+                Cdp++;
+                CdC[Cdp]=Cd;
+                Cd=0;
+            }else {
+
+            }
+        }
+
+
         Acel= Dif.Deltas(velInterp,timeRPM);
         //AclInterp = Util.interpLinear(timeVel,Acel,timeRPM);
 
@@ -58,14 +87,14 @@ public class TestInterpolation {
         System.out.println("");
         System.out.println("Acle Interp: ");
         System.out.println("");
-        for(int u = 0; u<Acel.length; u++){
-            System.out.print(Acel[u]+", ");
+        for(int u = 0; u<CdC.length; u++){
+            System.out.print(CdC[u]+", ");
         }
         System.out.println("");
         System.out.println("FC Interp: ");
         System.out.println("");
-        for(int u = 0; u<FuleC.length; u++){
-            System.out.print(FuleC[u]+", ");
+        for(int u = 0; u<Gears.length; u++){
+            System.out.print(Gears[u]+", ");
         }
 
     }

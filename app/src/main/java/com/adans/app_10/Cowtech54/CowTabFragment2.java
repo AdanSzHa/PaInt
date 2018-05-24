@@ -19,6 +19,8 @@ import com.adans.app_10.R;
 import com.adans.app_10.Dif;
 import com.adans.app_10.SensorsService;
 
+import java.text.DecimalFormat;
+
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
@@ -35,10 +37,21 @@ public class CowTabFragment2 extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    //Decimal Fotmat.
+    DecimalFormat df = new DecimalFormat("#.00");
+
+    //Var Emisissions
+    double Emissions;
+    double FuleAcum;
+    double deltaAcum;
+    double deltaprom;
+
+    //Inst of Cow Service
     CowService cowService2;
 
     CowTabFragment1 cowfrac1;
 
+    double[] DistTotal;
 
     TextView tvPerfil,tvConsumo,tvEmis;
     //Button btnStartUpd;
@@ -49,6 +62,8 @@ public class CowTabFragment2 extends Fragment {
     double[] VelInterp,RPMInterp,AclInterp;
     double Fuleprom;
     double FuleC;
+
+    double DistAcum;
 
 
     double[] vel = {0,0,0,11,11,12,11,17,24,39,39,40,41,41,41,38,9,33,34,43,45,48,48,46,45,39,39,14,9,11,19,21,38,39,39,42,44,44,45,46,45,45,42,38,35,31,6,21,31,39,40,43,42,28,7,12,15,16,14,11,3};
@@ -134,6 +149,8 @@ public class CowTabFragment2 extends Fragment {
         view= inflater.inflate(R.layout.fragment_cow_tab2, container, false);
 
         tvPerfil=(TextView)view.findViewById(R.id.tvPerfilFrac);
+        tvConsumo=(TextView)view.findViewById(R.id.tvConsumoFrac);
+        tvEmis=(TextView)view.findViewById(R.id.tvEmisFrac);
         //btnStartUpd=(Button)view.findViewById(R.id.btnSUpd);
 
         velInterp = Util.interpLinear(timeVel,vel,timeRPM);
@@ -158,9 +175,9 @@ public class CowTabFragment2 extends Fragment {
         @Override
         public void run() {
 
-            tvPerfil.setText(String.valueOf(FuleProm)+"X" + " lt/100km");
-
-
+            tvPerfil.setText(String.valueOf("Sporty"));
+            tvConsumo.setText(String.valueOf(df.format(FuleProm))+" km/lt");
+            tvEmis.setText(String.valueOf(df.format(Emissions))+" gCO2");
             double dlyto = 1;//Segundos
             nHandler.postDelayed(this, (long) (dlyto * 1000));
         }
@@ -223,11 +240,27 @@ public class CowTabFragment2 extends Fragment {
         Acel= Dif.Deltas(velInterp,timeRPM);
         double[] FuleC;
         FuleC=Dif.fuleC(velInterp,Acel);
-        double FuleAcum=0;
+        FuleAcum=0;
         for(int ct=0;ct<=velInterp.length-1;ct++){
             FuleAcum = FuleAcum+FuleC[ct];
         }
         FuleProm=100/(FuleAcum/(velInterp.length));
+        DistAcum = 0;
+        DistTotal=Dif.Kmetros(velInterp,timeRPM);
+        for (int c=0;c<=DistTotal.length-1;c++){
+         DistAcum=DistAcum+(DistTotal[c]/1000000);
+        }
+        deltaAcum=0;
+        for (int ct=0;ct<=timeVel.length-2;ct++) {
+
+            deltaAcum=deltaAcum+(timeVel[ct+1]-timeVel[ct]);
+        }
+        deltaprom=(deltaAcum)/timeVel.length;
+
+        double ltsTotales;
+        ltsTotales=1/((FuleProm)/(DistAcum));
+        Emissions=ltsTotales*(8887/3.7854);
+
     }
 
 }

@@ -28,8 +28,12 @@ public class Dif {
         return FuleC;
     }
 
+    public static double[] Kmetros(double[] velInterp, double[] timeRPM) {
 
-
-
-
+        double[] DistArry=new double[velInterp.length];
+        for(int i=0;i<=velInterp.length-5;i++) {
+            DistArry[i]=((abs(velInterp[i+1]-velInterp[i]))*(timeRPM[i+1]-timeRPM[i]));
+        }
+        return DistArry;
+    }
 }

@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -52,6 +53,7 @@ public class CowTabFragment2 extends Fragment {
     CowTabFragment1 cowfrac1;
 
     double[] DistTotal;
+    int[] Gears;
 
     TextView tvPerfil,tvConsumo,tvEmis;
     //Button btnStartUpd;
@@ -63,7 +65,12 @@ public class CowTabFragment2 extends Fragment {
     double Fuleprom;
     double FuleC;
 
+    int CTimer=0;
+
     double DistAcum;
+
+    double[]FpromAry;
+    double[]Distprom;
 
 
     double[] vel = {0,0,0,11,11,12,11,17,24,39,39,40,41,41,41,38,9,33,34,43,45,48,48,46,45,39,39,14,9,11,19,21,38,39,39,42,44,44,45,46,45,45,42,38,35,31,6,21,31,39,40,43,42,28,7,12,15,16,14,11,3};
@@ -73,6 +80,7 @@ public class CowTabFragment2 extends Fragment {
     double[] Acel;
     double[] velInterp, rpmInterp;
     double FuleProm;
+    double[] EmisAry;
 
 
     // TODO: Rename and change types of parameters
@@ -174,12 +182,52 @@ public class CowTabFragment2 extends Fragment {
 
         @Override
         public void run() {
+            if(Gears[CTimer]<=1){
+                tvPerfil.setText("Calm");
+                tvPerfil.setBackgroundColor(Color.BLUE);
+            }
+            if(Gears[CTimer]>1&&Gears[CTimer]<=3){
+                tvPerfil.setText("Normal");
+                tvPerfil.setBackgroundColor(Color.GREEN);
+            }
+            if(Gears[CTimer]>3&&Gears[CTimer]<=5){
+                tvPerfil.setText("Sporty");
+                tvPerfil.setBackgroundColor(Color.RED);
+            }
 
-            tvPerfil.setText(String.valueOf("Sporty"));
-            tvConsumo.setText(String.valueOf(df.format(FuleProm))+" km/lt");
-            tvEmis.setText(String.valueOf(df.format(Emissions))+" gCO2");
-            double dlyto = 1;//Segundos
+
+            tvConsumo.setText(String.valueOf(df.format(FpromAry[CTimer])+" km/lt"));
+
+            if(FpromAry[CTimer]<=4){
+                tvConsumo.setBackgroundColor(Color.BLUE);
+            }
+            if(FpromAry[CTimer]>4&&FpromAry[CTimer]<=12){
+                tvConsumo.setBackgroundColor(Color.GREEN);
+            }
+            if(FpromAry[CTimer]>12&&FpromAry[CTimer]<=20){
+                tvConsumo.setBackgroundColor(Color.RED);
+            }
+
+
+            tvEmis.setText(String.valueOf(df.format(EmisAry[CTimer])+" gCO2"));
+
+            if(EmisAry[CTimer]<=2){
+                tvEmis.setBackgroundColor(Color.BLUE);
+            }
+            if(EmisAry[CTimer]>2&&EmisAry[CTimer]<=4){
+                tvEmis.setBackgroundColor(Color.GREEN);
+            }
+            if(EmisAry[CTimer]>4&&EmisAry[CTimer]<=5){
+                tvEmis.setBackgroundColor(Color.RED);
+            }
+
+
+            double dlyto = 5;//Segundos
             nHandler.postDelayed(this, (long) (dlyto * 1000));
+            CTimer++;
+            if(CTimer>=14){
+                CTimer=0;
+            }
         }
     };
 
@@ -241,25 +289,72 @@ public class CowTabFragment2 extends Fragment {
         double[] FuleC;
         FuleC=Dif.fuleC(velInterp,Acel);
         FuleAcum=0;
+        FpromAry=new double[14];
+        int CdFA=0;
         for(int ct=0;ct<=velInterp.length-1;ct++){
             FuleAcum = FuleAcum+FuleC[ct];
+            if(ct%5==0&&FuleC[ct]!=0){
+                FpromAry[CdFA]=(FuleAcum+FuleC[ct])/5;
+                CdFA++;
+                FuleAcum=0;
+            }
         }
-        FuleProm=100/(FuleAcum/(velInterp.length));
+        //FuleProm=100/(FuleAcum/(velInterp.length));
+
+
+        //Distan
+        int CdDP=0;
         DistAcum = 0;
+        Distprom = new double[14];
+        EmisAry = new double[14];
         DistTotal=Dif.Kmetros(velInterp,timeRPM);
         for (int c=0;c<=DistTotal.length-1;c++){
-         DistAcum=DistAcum+(DistTotal[c]/1000000);
+            DistAcum=DistAcum+(DistTotal[c]/1000000);
+            if(c%5==0&&FuleC[c]!=0){
+                Distprom[CdDP]=(DistAcum+FuleC[c])/5;
+                EmisAry[CdDP]=(1/((FpromAry[CdDP]*100)/(Distprom[CdDP])))*(8887/3.7854);
+                CdDP++;
+                DistAcum=0;
+            }
         }
-        deltaAcum=0;
+
+        /*deltaAcum=0;
         for (int ct=0;ct<=timeVel.length-2;ct++) {
 
             deltaAcum=deltaAcum+(timeVel[ct+1]-timeVel[ct]);
         }
-        deltaprom=(deltaAcum)/timeVel.length;
+        deltaprom=(deltaAcum)/timeVel.length;*/
 
         double ltsTotales;
         ltsTotales=1/((FuleProm)/(DistAcum));
         Emissions=ltsTotales*(8887/3.7854);
+
+        //DS Pros
+        double[] gear=new double[velInterp.length];
+        for (int c=0;c<=velInterp.length-11;c++){
+            gear[c]=velInterp[c]/rpmInterp[c];
+        }
+        Gears=new int[75];
+        for (int c=0;c<=70;c++)
+        {
+            if (gear[c]<=0.01) { Gears[c]=1;}
+            if (gear[c]>0.01&&gear[c]<=0.02) { Gears[c]=2;}
+            if (gear[c]>0.02&&gear[c]<=0.03) { Gears[c]=3;}
+            if (gear[c]>0.03&&gear[c]<=0.04) { Gears[c]=4;}
+            if (gear[c]>0.04&&gear[c]<=0.05) { Gears[c]=5;}
+        }
+        int Cd=0;
+        int Cdp=0;
+        int[] CdC=new int[14];
+        for(int c=0;c<70;c++){
+            if (Gears[c+1]!=Gears[c]){Cd++;}
+            //0 excep
+            if(c%5==0&&Gears[c]!=0){
+                CdC[Cdp]=Cd;
+                Cdp++;
+                Cd=0;
+            }
+        }
 
     }
 

@@ -7,6 +7,7 @@
     android:background="@color/ap_white"
     android:fitsSystemWindows="true">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,11 +17,20 @@
         android:gravity="bottom"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="A D A S"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="65sp" />
+
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
-            android:layout_height="199dp"
+            android:layout_height="209dp"
             app:srcCompat="@drawable/logoprin" />
 
         <android.support.design.widget.TextInputLayout
@@ -51,7 +61,7 @@
                 android:id="@+id/editTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="[ Contraseña ]"
+                android:hint="[ Password ]"
                 android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
@@ -72,6 +82,6 @@
             android:layout_marginBottom="16dp"
             android:layout_marginTop="16dp"
             android:gravity="center_horizontal"
-            android:text="Crear cuenta" />
+            android:text="Create Account" />
     </LinearLayout>
 </ScrollView>

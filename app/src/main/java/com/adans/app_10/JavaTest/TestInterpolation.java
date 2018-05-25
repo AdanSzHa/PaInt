@@ -19,6 +19,7 @@ public class TestInterpolation {
         velInterp = Util.interpLinear(timeVel,vel,timeRPM);
         rpmInterp = Util.interpLinear(timeRPM,RPM,timeVel);
 
+        //DS Pros
         double[] gear=new double[velInterp.length];
         for (int c=0;c<=velInterp.length-11;c++){
             gear[c]=velInterp[c]/rpmInterp[c];
@@ -35,15 +36,15 @@ public class TestInterpolation {
         int Cd=0;
         int Cdp=0;
         int[] CdC=new int[14];
-        for(int c=1;c<70;c++){
-            if (Gears[c]!=Gears[c+1]){Cd++;}
+        for(int c=0;c<70;c++){
 
-            if(c%5==0){ if (Gears[c]!=Gears[c+1]){Cd++;}
-                Cdp++;
+            if (Gears[c+1]!=Gears[c]){Cd++;}
+
+            //0 excep
+            if(c%5==0&&Gears[c]!=0){
                 CdC[Cdp]=Cd;
+                Cdp++;
                 Cd=0;
-            }else {
-
             }
         }
 
@@ -54,10 +55,17 @@ public class TestInterpolation {
         double[] FuleC;
         FuleC=Dif.fuleC(velInterp,Acel);
         double FuleAcum=0;
-        for(int ct=0;ct<=velInterp.length-1;ct++){
-            FuleAcum = FuleAcum+FuleC[ct];
+        int CdFA=0;
+        double[] FpromAry=new double[14];
+        for(int ct=0;ct<=velInterp.length-1;ct++) {
+            FuleAcum = FuleAcum + FuleC[ct];
+            if (ct % 5 == 0 && FuleC[ct] != 0) {
+                FpromAry[CdFA] = (FuleAcum + FuleC[ct])/5;
+                CdFA++;
+                FuleAcum = 0;
+            }
         }
-        double FuleProm=100/(FuleAcum/(velInterp.length));
+        //FuleProm=100/(FuleAcum/(velInterp.length));
 
 
         double FuleAcumMuestra=0;
@@ -66,6 +74,19 @@ public class TestInterpolation {
         }
         double FulePromMuestra=100/(FuleAcumMuestra/(40));
 
+
+        int CdDP=0;
+        double DistAcum = 0;
+        double[] Distprom = new double[14];
+        double[] DistTotal=Dif.Kmetros(velInterp,timeRPM);
+        for (int c=0;c<=DistTotal.length-1;c++){
+            DistAcum=DistAcum+(DistTotal[c]/1000000);
+            if(c%5==0&&FuleC[c]!=0){
+                Distprom[CdDP]=(DistAcum+FuleC[c]/10000)/5;
+                CdDP++;
+                DistAcum=0;
+            }
+        }
 
 
 
@@ -85,19 +106,16 @@ public class TestInterpolation {
             System.out.print(rpmInterp[i]+", ");
         }
         System.out.println("");
-        System.out.println("Acle Interp: ");
+        System.out.println("Dist prom: ");
         System.out.println("");
-        for(int u = 0; u<CdC.length; u++){
-            System.out.print(CdC[u]+", ");
+        for(int u = 0; u<Distprom.length; u++){
+            System.out.print(Distprom[u]+", ");
         }
         System.out.println("");
-        System.out.println("FC Interp: ");
+        System.out.println("Fprom: ");
         System.out.println("");
-        for(int u = 0; u<Gears.length; u++){
-            System.out.print(Gears[u]+", ");
+        for(int u = 0; u<FpromAry.length; u++){
+            System.out.print(FpromAry[u]+", ");
         }
-
     }
-
-
 }

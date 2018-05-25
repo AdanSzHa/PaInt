@@ -19,9 +19,9 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="71dp"
-            android:text="Crear Usuario"
-            android:textSize="25sp"
-            android:textColor="@color/ap_black"/>
+            android:text="Register User"
+            android:textColor="@color/ap_black"
+            android:textSize="25sp" />
 
         <android.support.design.widget.TextInputLayout
             app:errorEnabled="true"
@@ -34,7 +34,7 @@
                 android:id="@+id/editTextUserName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nombre"
+                android:hint="Name"
                 android:inputType="textPersonName" />
         </android.support.design.widget.TextInputLayout>
 
@@ -66,7 +66,7 @@
                 android:id="@+id/editTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Contraseña"
+                android:hint="Password"
                 android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
@@ -74,12 +74,12 @@
             android:id="@+id/buttonRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:background="@color/ap_black"
-            android:text="Registrar" />
+            android:text=" Create Account"
+            android:textColor="@android:color/white" />
 
         <TextView
             android:id="@+id/textViewLogin"
@@ -88,7 +88,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             android:gravity="center"
-            android:text="Regresar al Login"
+            android:text="Return to Login"
             android:textColor="@android:color/black" />
     </LinearLayout>
 </ScrollView>

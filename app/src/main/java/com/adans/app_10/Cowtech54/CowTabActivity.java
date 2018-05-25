@@ -26,8 +26,9 @@ import com.facebook.FacebookSdk;
 
 public class CowTabActivity extends MenuToolbar implements
         CowTabFragment1.OnFragmentInteractionListener,
-        CowTabFragment2.OnFragmentInteractionListener,
-        CowTabFragment3.OnFragmentInteractionListener{
+        CowTabFragment2.OnFragmentInteractionListener{
+        //CowTabFragment3.OnFragmentInteractionListener
+
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -59,7 +60,7 @@ public class CowTabActivity extends MenuToolbar implements
 //        MenuToolbar menu = new MenuToolbar(toolbar,"Main",this);
         this.setToolbar(toolbar);
         this.setContext(this);
-        this.setTitleToolbar("CowTech54 DrivingStyles");
+        this.setTitleToolbar("CowADAS");
         this.loadToolbar();
 
         //-------------------------------------------------------------------------------------------
@@ -67,7 +68,7 @@ public class CowTabActivity extends MenuToolbar implements
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(),3);
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(),2);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -179,9 +180,9 @@ public class CowTabActivity extends MenuToolbar implements
                 case 1:
                     CowTabFragment2 tab2 = new CowTabFragment2();
                     return tab2;
-                case 2:
+                /*case 2:
                     CowTabFragment3 tab3 = CowTabFragment3.newInstance("a", "b");
-                    return tab3;
+                    return tab3;*/
                 default:
                     return null;
             }

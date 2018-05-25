@@ -21,11 +21,11 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_weight="1"
-            android:background="@color/accent2"
+            android:background="@color/black"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/PopupOverlay"
-            app:title="Cowtech54 Driving Styles"
-            app:titleTextColor="@color/black">
+            app:title="CowADAS"
+            app:titleTextColor="@color/white">
             </android.support.v7.widget.Toolbar>
 
 
@@ -33,7 +33,7 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/accent3"
+            android:background="@color/grey"
             app:tabSelectedTextColor="@color/black">
 
             <android.support.design.widget.TabItem
@@ -48,12 +48,11 @@
                 android:layout_height="wrap_content"
                 android:text="@string/tab_text_2" />
 
-            <android.support.design.widget.TabItem
+            <!--<android.support.design.widget.TabItem
                 android:id="@+id/tabItem3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tab_text_3" />
-
+                android:text="@string/tab_text_3" />-->
         </android.support.design.widget.TabLayout>
     </android.support.design.widget.AppBarLayout>
 

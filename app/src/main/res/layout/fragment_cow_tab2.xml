@@ -1,82 +1,141 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.adans.app_10.Cowtech54.CowTabFragment2"
     >
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="5dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="5dp">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/relativeLayout2"
+            android:layout_width="match_parent"
 
-        android:paddingLeft="150dp"
-        android:paddingRight="20dp"
-        android:orientation="vertical">
+            android:layout_height="410dp"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="0dp"
+            tools:layout_editor_absoluteY="5dp">
 
 
-        <TextView
-            android:id="@+id/tvPerfilFrac"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="60dp"
-            android:layout_weight="1"
-            android:background="@android:color/holo_red_dark"
-            android:gravity="center_vertical"
-            android:text="--------"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            android:textStyle="bold"></TextView>
+            <TextView
+                android:id="@+id/tvPerfilFrac"
+                android:layout_width="354dp"
+                android:layout_height="55dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="85dp"
+                android:layout_marginTop="110dp"
+                android:layout_weight="1"
+                android:background="@android:color/holo_red_dark"
+                android:gravity="center_vertical"
+                android:text="--------"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:textStyle="bold"></TextView>
 
-        <TextView
-            android:id="@+id/tvConsumoFrac"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:layout_below="@id/tvPerfilFrac"
-            android:layout_marginTop="60dp"
-            android:layout_weight="1"
-            android:background="@android:color/holo_orange_light"
-            android:gravity="center_vertical"
-            android:text="12 lt/km"
-            android:textAlignment="center"
-            android:textSize="30sp"
-            android:textColor="@color/white"
-            android:textStyle="bold"></TextView>
+            <TextView
+                android:id="@+id/tvConsumoFrac"
+                android:layout_width="303dp"
+                android:layout_height="55dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="135dp"
+                android:layout_marginEnd="0dp"
+                android:layout_weight="1"
+                android:background="@android:color/holo_orange_light"
+                android:gravity="center_vertical"
+                android:text="12 lt/km"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:textStyle="bold"></TextView>
 
-        <TextView
-            android:id="@+id/tvEmisFrac"
-            android:layout_width="fill_parent"
-            android:textColor="@color/white"
-            android:layout_height="50dp"
-            android:layout_below="@id/tvConsumoFrac"
-            android:layout_marginTop="60dp"
-            android:layout_weight="1"
-            android:background="@android:color/holo_green_light"
-            android:gravity="center_vertical"
-            android:text="5 CO2"
-            android:textAlignment="center"
-            android:textSize="30sp"
-            android:textStyle="bold"></TextView>
+            <TextView
+                android:id="@+id/tvEmisFrac"
+                android:layout_width="300dp"
+                android:layout_height="55dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="25dp"
+                android:layout_marginEnd="0dp"
+                android:layout_weight="1"
+                android:background="@android:color/holo_green_light"
+                android:gravity="center_vertical"
+                android:text="5 CO2"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:textStyle="bold"></TextView>
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="65dp"
+                android:text="Driving Style"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignStart="@+id/textView3"
+                android:layout_marginTop="176dp"
+                android:text="Consumption"
+                android:textColor="@color/black"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="174dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignStart="@+id/textView3"
+                android:layout_marginBottom="96dp"
+                android:text="Emissions"
+                android:textColor="@color/black"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tvDriver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Admin"
+                android:textColor="@color/black"
+                android:textSize="40dp" />
+
+        </RelativeLayout>
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="311dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="1"
-            android:src="@mipmap/ic_cow_black_nbg" />
+            android:id="@+id/imageView3"
+            android:layout_width="154dp"
+            android:layout_height="107dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/logoprin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
+            app:layout_constraintVertical_bias="0.0" />
 
 
-    </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 
 </FrameLayout>
